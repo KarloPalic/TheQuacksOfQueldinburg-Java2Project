@@ -21,7 +21,8 @@
          </image>
       </ImageView>
       <Label fx:id="waterDrop" layoutX="531.0" layoutY="199.0" />
-      <TextField fx:id="tfEnterPoints" layoutX="51.0" layoutY="462.0" promptText="Enter points" />
-      <Button fx:id="btnEndTurn" layoutX="99.0" layoutY="423.0" mnemonicParsing="false" text="End Turn" onAction="#onbtnEndTurnClicked"/>
+      <TextField fx:id="tfPlayer1EnterPoints" layoutX="51.0" layoutY="462.0" promptText="Enter points" />
+      <Button fx:id="btnPlayer1EndTurn" layoutX="99.0" layoutY="423.0" mnemonicParsing="false" text="End Turn" onAction="#onbtnEndTurnPlayer1Clicked">
+      </Button>
    </children>
 </Pane>

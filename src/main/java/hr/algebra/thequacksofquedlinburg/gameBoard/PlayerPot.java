@@ -1,5 +1,6 @@
 package hr.algebra.thequacksofquedlinburg.gameBoard;
 import hr.algebra.thequacksofquedlinburg.gameBoard.enums.EnumIngredient;
+import hr.algebra.thequacksofquedlinburg.gameBoard.enums.IngredientGroup;
 import hr.algebra.thequacksofquedlinburg.gameBoard.enums.Team;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -29,8 +30,9 @@ public class PlayerPot {
         for (EnumIngredient ingredient : EnumIngredient.values()) {
             int iters = 1;
 
-            if (ingredient.getPoints() == 1) iters = 3;
-            if (ingredient.getPoints() == 2) iters = 2;
+            if (ingredient.getName().equals("Bloom1")) iters = 8;
+            if (ingredient.getName().equals("Bloom2")) iters = 5;
+
 
             for (int i = 0; i < iters; i++) {
                 String path = ingredient.getFilePath();

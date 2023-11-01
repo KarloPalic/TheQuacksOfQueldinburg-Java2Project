@@ -5,18 +5,22 @@ import hr.algebra.thequacksofquedlinburg.gameBoard.enums.EnumIngredient;
 import hr.algebra.thequacksofquedlinburg.gameBoard.enums.IngredientGroup;
 import hr.algebra.thequacksofquedlinburg.gameBoard.PlayerPot;
 import hr.algebra.thequacksofquedlinburg.gameBoard.enums.Team;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Cursor;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
 
 import java.net.URL;
 import java.util.*;
@@ -38,15 +42,26 @@ public class PlayerPotController implements Initializable {
     @FXML
     private Label waterDrop;
     @FXML
-    private TextField tfEnterPoints;
-    @FXML
-    private Button btnEndTurn;
-    private BoardController boardController;
-    private HashMap<IngredientGroup, Integer> pointCounter = new HashMap<>();
+    private TextField tfPlayer1EnterPoints;
 
+    @FXML
+    private TextField tfPlayer2EnterPoints;
+
+    private BoardController boardController;
+
+
+    private int pointsPlayer1;
+    private int pointsPlayer2;
+    private HashMap<IngredientGroup, Integer> pointCounter = new HashMap<>();
+    private Stage stage;
+
+    public void setBoardController(BoardController boardController) {
+        this.boardController = boardController;
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
         Image waterDropImg = new Image(MainApplication.class.getResource("images/waterDrop1-removebg-preview.png").toString());
         ImageView waterDropImageView = new ImageView(waterDropImg);
         waterDropImageView.setFitWidth(42);
@@ -58,19 +73,6 @@ public class PlayerPotController implements Initializable {
         playerPot = new PlayerPot(team);
         potView.toBack();
         setDraggable(waterDrop);
-
-        tfEnterPoints.textProperty().addListener((observable, oldValue, newValue) -> {
-            try {
-                int points = Integer.parseInt(newValue);
-                if (points >= 0) {
-                    btnEndTurn.setDisable(false);
-                } else {
-                    btnEndTurn.setDisable(true);
-                }
-            } catch (NumberFormatException e) {
-                btnEndTurn.setDisable(true);
-            }
-        });
 
     }
 
@@ -97,10 +99,9 @@ public class PlayerPotController implements Initializable {
 
             int totalPoints = pointCounter.get(ingredient.getGroup());
 
-      //      System.out.println(totalPoints + " for " + ingredient.getGroup() + " - " + ingredient);
-
             if (totalPoints >= 7) {
                 bust("Its a BUST!");
+                pnPlayer1Pot.getChildren().add(selectedIngredientLabel);
             } else {
                 pnPlayer1Pot.getChildren().add(selectedIngredientLabel);
             }
@@ -108,8 +109,48 @@ public class PlayerPotController implements Initializable {
         }
     }
     @FXML
-    void onbtnEndTurnClicked(ActionEvent event) {
+    void onbtnEndTurnPlayer1Clicked(ActionEvent event) {
+        try {
+            pointsPlayer1 = Integer.parseInt(tfPlayer1EnterPoints.getText());
 
+            if (pointsPlayer1 == 1){
+                Label player1Label = new Label("Player 1 has to move: " + pointsPlayer1 + " place forward");
+                boardController.removePlayer2Label();
+                player1Label.setStyle("-fx-font-size: 17px; -fx-font-weight: bold;");
+                boardController.addLabelToPlayerPointsPane(player1Label);
+            }else {
+                Label player1Label = new Label("Player 1 has to move: " + pointsPlayer1 + " places forward");
+                boardController.removePlayer2Label();
+                player1Label.setStyle("-fx-font-size: 17px; -fx-font-weight: bold;");
+                boardController.addLabelToPlayerPointsPane(player1Label);
+            }
+
+            stage.close();
+        } catch (NumberFormatException e) {
+            System.err.println("Invalid points value in the text field.");
+        }
+    }
+    @FXML
+    void onbtnEndTurnPlayer2Clicked(ActionEvent event) {
+        try {
+            pointsPlayer2 = Integer.parseInt(tfPlayer2EnterPoints.getText());
+
+            if (pointsPlayer2 == 1){
+                Label player2Label = new Label("Player 2 has to move: " + pointsPlayer2 + " place forward");
+                boardController.removePlayer1Label();
+                player2Label.setStyle("-fx-font-size: 17px; -fx-font-weight: bold;");
+                boardController.addLabelToPlayerPointsPane(player2Label);
+            }else {
+                Label player2Label = new Label("Player 2 has to move: " + pointsPlayer2 + " places forward");
+                boardController.removePlayer1Label();
+                player2Label.setStyle("-fx-font-size: 17px; -fx-font-weight: bold;");
+                boardController.addLabelToPlayerPointsPane(player2Label);
+            }
+
+            stage.close();
+        } catch (NumberFormatException e) {
+            System.err.println("Invalid points value in the text field.");
+        }
     }
     private void setDraggable (Label label){
         final Delta dragDelta = new Delta();
@@ -130,6 +171,10 @@ public class PlayerPotController implements Initializable {
         });
     }
 
+    public void setStage(Stage stage) {
+        this.stage = stage;
+    }
+
     static class Delta {
         double x, y;
     }
@@ -144,5 +189,12 @@ public class PlayerPotController implements Initializable {
 
     public void setTeam(Team team) {
         this.team = team;
+    }
+
+    public int getPlayer1Points() {
+        return pointsPlayer1;
+    }
+    public int getPlayer2Points() {
+        return pointsPlayer2;
     }
 }
