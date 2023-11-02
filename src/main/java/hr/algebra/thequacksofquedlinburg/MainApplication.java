@@ -1,5 +1,6 @@
 package hr.algebra.thequacksofquedlinburg;
 
+import hr.algebra.thequacksofquedlinburg.Conrollers.BoardController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -13,6 +14,7 @@ public class MainApplication extends Application {
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource("PlayerView.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 1000, 650);
+        ((BoardController) fxmlLoader.getController()).setStage(stage);
         stage.setTitle("The Quacks of Quedlinburg");
         stage.setScene(scene);
         stage.show();

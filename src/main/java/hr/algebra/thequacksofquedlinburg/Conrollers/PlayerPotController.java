@@ -111,7 +111,13 @@ public class PlayerPotController implements Initializable {
     @FXML
     void onbtnEndTurnPlayer1Clicked(ActionEvent event) {
         try {
+            boardController.erasePlayer1(getPlayer1Points());
             pointsPlayer1 = Integer.parseInt(tfPlayer1EnterPoints.getText());
+
+            boardController.addPlayer1Points(Integer.parseInt(tfPlayer1EnterPoints.getText()));
+
+
+            boardController.movePlayer1(boardController.getPlayer1Points());
 
             if (pointsPlayer1 == 1){
                 Label player1Label = new Label("Player 1 has to move: " + pointsPlayer1 + " place forward");
@@ -133,7 +139,12 @@ public class PlayerPotController implements Initializable {
     @FXML
     void onbtnEndTurnPlayer2Clicked(ActionEvent event) {
         try {
+            boardController.erasePlayer2(getPlayer2Points());
             pointsPlayer2 = Integer.parseInt(tfPlayer2EnterPoints.getText());
+
+            boardController.addPlayer2Points(Integer.parseInt(tfPlayer2EnterPoints.getText()));
+
+            boardController.movePlayer2(boardController.getPlayer2Points());
 
             if (pointsPlayer2 == 1){
                 Label player2Label = new Label("Player 2 has to move: " + pointsPlayer2 + " place forward");
@@ -196,5 +207,9 @@ public class PlayerPotController implements Initializable {
     }
     public int getPlayer2Points() {
         return pointsPlayer2;
+    }
+
+    public Stage getStage() {
+        return stage;
     }
 }

@@ -8,10 +8,16 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
+import javafx.scene.shape.Circle;
 import javafx.scene.text.TextAlignment;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class MainBoard{
+
+    private List<GridPane> gridPanes = new ArrayList<>();
 
     public void layoutGridPane(GridPane mainGridPane) {
 
@@ -68,7 +74,6 @@ public class MainBoard{
                 one.setStyle("-fx-font-size: 17px; -fx-font-weight: bold;");
                 one.setId(String.valueOf(1));
                 mainGridPane.add(one, 0, 11);
-
 
                 Label two = new Label("2");
                 two.setStyle("-fx-font-size: 17px; -fx-font-weight: bold;");
