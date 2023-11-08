@@ -1,24 +1,42 @@
-package hr.algebra.thequacksofquedlinburg.gameBoard;
+package hr.algebra.thequacksofquedlinburg.GameBoard;
 import hr.algebra.thequacksofquedlinburg.MainApplication;
 import javafx.beans.binding.DoubleBinding;
-import javafx.fxml.FXML;
+
 import javafx.geometry.HPos;
-import javafx.geometry.Pos;
+
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
-import javafx.scene.shape.Circle;
-import javafx.scene.text.TextAlignment;
-
-import java.util.ArrayList;
-import java.util.List;
 
 
-public class MainBoard{
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 
-    private List<GridPane> gridPanes = new ArrayList<>();
 
+public class MainBoard implements Serializable{
+    private transient GridPane mainGridPane;
+
+    public MainBoard(GridPane mainGridPane) {
+        this.mainGridPane = mainGridPane;
+    }
+
+    private void writeObject(ObjectOutputStream out) throws IOException {
+        // Serialize other fields that are not transient
+        out.defaultWriteObject();
+    }
+
+    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
+        // Deserialize other fields that are not transient
+        in.defaultReadObject();
+
+        // Recreate the GridPane and its contents here
+        mainGridPane = new GridPane();
+        layoutGridPane(mainGridPane);
+        createGridPane(mainGridPane);
+    }
     public void layoutGridPane(GridPane mainGridPane) {
 
         ColumnConstraints colMid = new ColumnConstraints();

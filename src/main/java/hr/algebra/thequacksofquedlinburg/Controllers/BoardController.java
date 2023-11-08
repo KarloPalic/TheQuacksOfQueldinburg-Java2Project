@@ -1,19 +1,19 @@
-package hr.algebra.thequacksofquedlinburg.Conrollers;
+package hr.algebra.thequacksofquedlinburg.Controllers;
 
 import hr.algebra.thequacksofquedlinburg.MainApplication;
-import hr.algebra.thequacksofquedlinburg.gameBoard.MainBoard;
-import hr.algebra.thequacksofquedlinburg.gameBoard.enums.Team;
+import hr.algebra.thequacksofquedlinburg.GameBoard.GameState;
+import hr.algebra.thequacksofquedlinburg.GameBoard.MainBoard;
+import hr.algebra.thequacksofquedlinburg.GameBoard.enums.Team;
+import hr.algebra.thequacksofquedlinburg.Utils.DocumentationUtil;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 
-import javafx.scene.Cursor;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 
 import javafx.scene.control.Alert;
-import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
@@ -21,34 +21,39 @@ import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 import javafx.util.Pair;
 
-import java.io.IOException;
+import java.io.*;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class BoardController implements Initializable {
+public class BoardController implements Initializable, Serializable {
 
     @FXML
     private GridPane mainGridPane;
 
     @FXML
-    private ImageView player1Icon;
+    private transient ImageView player1Icon;
     @FXML
-    private ImageView player2Icon;
+    private transient ImageView player2Icon;
     @FXML
-    private AnchorPane playerPointsPane;
-    private PlayerPotController playerPotController1;
-    private PlayerPotController playerPotController2;
+    private transient AnchorPane playerPointsPane;
+    private transient PlayerPotController playerPotController1;
+    private transient PlayerPotController playerPotController2;
+    private int player1CircleBoardPosX;
+    private int player1CircleBoardPosY;
+    private int player2CircleBoardPosX;
+    private int player2CircleBoardPosY;
 
     private int player1Points;
     private int player2Points;
 
-    private Circle player1Circle;
-    private Circle player2Circle;
+    private transient Circle player1Circle;
+    private transient Circle player2Circle;
 
-    private Stage stage;
+    private transient Stage stage;
     private int turnCount = 0;
 
     private Team currentTurn = Team.Blue;
+
 
     public void setStage(Stage stage){
         this.stage = stage;
@@ -58,7 +63,7 @@ public class BoardController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        MainBoard mainBoard = new MainBoard();
+        MainBoard mainBoard = new MainBoard(mainGridPane);
         mainBoard.createGridPane(mainGridPane);
         mainBoard.layoutGridPane(mainGridPane);
 
@@ -69,6 +74,18 @@ public class BoardController implements Initializable {
 
         player2Icon.setTranslateX(-620);
         player2Icon.setTranslateY(136);
+
+        if (player1CircleBoardPosX != 0 && player1CircleBoardPosY != 0) {
+            player1Circle = new Circle(10);
+            player1Circle.setFill(Color.BLUE);
+            mainGridPane.add(player1Circle, player1CircleBoardPosX, player1CircleBoardPosY);
+        }
+
+        if (player2CircleBoardPosX != 0 && player2CircleBoardPosY != 0) {
+            player2Circle = new Circle(10);
+            player2Circle.setFill(Color.RED);
+            mainGridPane.add(player2Circle, player2CircleBoardPosX, player2CircleBoardPosY);
+        }
 
     }
     @FXML
@@ -170,29 +187,19 @@ public class BoardController implements Initializable {
 
     private void showMessage(String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Alert");
+        alert.setTitle("Quack Alert");
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
     }
 
-    public void addLabelToPlayerPointsPane(Label label) {
-        playerPointsPane.getChildren().add(label);
-    }
-
-    public void removePlayer1Label() {
-        playerPointsPane.getChildren().removeIf(node -> node instanceof Label && ((Label) node).getText().startsWith("Player 1 "));
-    }
-
-    public void removePlayer2Label() {
-        playerPointsPane.getChildren().removeIf(node -> node instanceof Label && ((Label) node).getText().startsWith("Player 2 "));
-    }
-
     public void movePlayer1(int movePlayer){
         player1Circle = new Circle(10);
         player1Circle.setFill(Color.BLUE);
-        Pair player1BoardPosition = getBoardPosition(movePlayer);
-        mainGridPane.add(player1Circle, (int) player1BoardPosition.getKey(),(int) player1BoardPosition.getValue());
+        Pair<Integer, Integer> player1BoardPosition = getBoardPosition(movePlayer);
+        player1CircleBoardPosX = player1BoardPosition.getKey();
+        player1CircleBoardPosY = player1BoardPosition.getValue();
+        mainGridPane.add(player1Circle, player1CircleBoardPosX, player1CircleBoardPosY);
     };
 
     public void erasePlayer1(int erasePlayer){
@@ -202,13 +209,132 @@ public class BoardController implements Initializable {
     public void movePlayer2(int movePlayer){
         player2Circle = new Circle(10);
         player2Circle.setFill(Color.RED);
-        Pair player2BoardPosition = getBoardPosition(movePlayer);
-        mainGridPane.add(player2Circle, (int) player2BoardPosition.getKey(),(int) player2BoardPosition.getValue());
+        Pair<Integer, Integer> player2BoardPosition = getBoardPosition(movePlayer);
+        player2CircleBoardPosX = player2BoardPosition.getKey();
+        player2CircleBoardPosY = player2BoardPosition.getValue();
+        mainGridPane.add(player2Circle, player2CircleBoardPosX,player2CircleBoardPosY);
     };
 
     public void erasePlayer2(int erasePlayer){
         mainGridPane.getChildren().remove(player2Circle);
     };
+    @Serial
+    private void writeObject(ObjectOutputStream out) throws IOException {
+        out.defaultWriteObject();
+        // Circle 1
+        out.writeDouble(player1Circle.getCenterX());
+        out.writeDouble(player1Circle.getCenterY());
+        out.writeDouble(player1Circle.getRadius());
+
+        // Circle 2
+        out.writeDouble(player2Circle.getCenterX());
+        out.writeDouble(player2Circle.getCenterY());
+        out.writeDouble(player2Circle.getRadius());
+    }
+    @Serial
+    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
+        in.defaultReadObject();
+
+        //Recreate Circle.Blue
+        player1Circle = new Circle(10);
+        player1Circle.setFill(Color.BLUE);
+        player1CircleBoardPosX = in.readInt();
+        player1CircleBoardPosY = in.readInt();
+        mainGridPane.add(player1Circle, player1CircleBoardPosX, player1CircleBoardPosY);
+
+        //Recreate Circle.Blue
+        player2Circle = new Circle(10);
+        player2Circle.setFill(Color.RED);
+        player2CircleBoardPosX = in.readInt();
+        player2CircleBoardPosY = in.readInt();
+        mainGridPane.add(player2Circle, player2CircleBoardPosX, player2CircleBoardPosY);
+    }
+
+    public void clearBoard() {
+    player1Points = 0;
+    player2Points = 0;
+
+    playerPointsPane.getChildren().clear();
+
+    turnCount = 0;
+    currentTurn = Team.Blue;
+
+    if (player1Circle != null){
+        mainGridPane.getChildren().remove(player1Circle);
+    }
+    if (player2Circle != null){
+        mainGridPane.getChildren().remove(player2Circle);
+    }
+
+    playerPotController1 = null;
+    playerPotController2 = null;
+    }
+
+    public void saveGame(){
+        GameState gameStateToSave = new GameState(player1Points, player2Points, turnCount, currentTurn, playerPotController1, playerPotController2, player1Circle, player2Circle, player1CircleBoardPosX,player1CircleBoardPosY,player2CircleBoardPosX,player2CircleBoardPosY);
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("gameState.dat"))) {
+            oos.writeObject(gameStateToSave);
+            oos.close();
+
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Save game successful!");
+            alert.setHeaderText(null);
+            alert.setContentText("You have successfully saved the game!");
+
+            alert.showAndWait();
+
+            clearBoard();
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void loadGame(){
+        clearBoard();
+
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("gameState.dat"))) {
+            GameState gameState = (GameState) ois.readObject();
+            ois.close();
+
+            player1Points = gameState.player1Points;
+            player2Points = gameState.player2Points;
+            turnCount = gameState.turnCount;
+            currentTurn = gameState.currentTurn;
+            playerPotController1 = gameState.playerPotController1;
+            playerPotController2 = gameState.playerPotController2;
+
+            player1Circle = new Circle(10);
+            player1Circle.setFill(Color.BLUE);
+            mainGridPane.add(player1Circle, player1CircleBoardPosX,player1CircleBoardPosY);
+
+            player2Circle = new Circle(10);
+            player2Circle.setFill(Color.RED);
+            mainGridPane.add(player2Circle, player2CircleBoardPosX,player2CircleBoardPosY);
+
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Load game successful!");
+            alert.setHeaderText(null);
+            alert.setContentText("You have successfully loaded the game!");
+
+            alert.showAndWait();
+        } catch (IOException | ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
+    public void createDoc(){
+
+        DocumentationUtil documentationUtil = new DocumentationUtil();
+
+        documentationUtil.generateDocumentation(DocumentationUtil.THE_QUACKS_PATH, DocumentationUtil.HTML_QUACKS);
+        documentationUtil.generateDocumentation(DocumentationUtil.GAME_BOARD_PATH, DocumentationUtil.HTML_GAME_BOARD);
+        documentationUtil.generateDocumentation(DocumentationUtil.CONTROLLER_PATH, DocumentationUtil.HTML_CONTROLLERS);
+        documentationUtil.generateDocumentation(DocumentationUtil.ENUM_PATH, DocumentationUtil.HTML_ENUMS);
+        documentationUtil.generateDocumentation(DocumentationUtil.UTILS_PATH, DocumentationUtil.HTML_UTILS);
+    }
+
 
     public Pair<Integer,Integer> getBoardPosition(int playerPos)
     {

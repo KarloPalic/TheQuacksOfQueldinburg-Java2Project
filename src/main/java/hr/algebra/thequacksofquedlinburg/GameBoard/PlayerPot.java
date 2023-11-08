@@ -1,7 +1,6 @@
-package hr.algebra.thequacksofquedlinburg.gameBoard;
-import hr.algebra.thequacksofquedlinburg.gameBoard.enums.EnumIngredient;
-import hr.algebra.thequacksofquedlinburg.gameBoard.enums.IngredientGroup;
-import hr.algebra.thequacksofquedlinburg.gameBoard.enums.Team;
+package hr.algebra.thequacksofquedlinburg.GameBoard;
+import hr.algebra.thequacksofquedlinburg.GameBoard.enums.EnumIngredient;
+import hr.algebra.thequacksofquedlinburg.GameBoard.enums.Team;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;

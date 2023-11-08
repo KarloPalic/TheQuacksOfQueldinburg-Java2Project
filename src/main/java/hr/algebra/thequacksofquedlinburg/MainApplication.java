@@ -1,6 +1,6 @@
 package hr.algebra.thequacksofquedlinburg;
 
-import hr.algebra.thequacksofquedlinburg.Conrollers.BoardController;
+import hr.algebra.thequacksofquedlinburg.Controllers.BoardController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;

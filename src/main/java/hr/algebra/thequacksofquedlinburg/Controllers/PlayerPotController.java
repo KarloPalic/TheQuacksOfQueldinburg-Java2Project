@@ -1,32 +1,32 @@
-package hr.algebra.thequacksofquedlinburg.Conrollers;
+package hr.algebra.thequacksofquedlinburg.Controllers;
 
 import hr.algebra.thequacksofquedlinburg.MainApplication;
-import hr.algebra.thequacksofquedlinburg.gameBoard.enums.EnumIngredient;
-import hr.algebra.thequacksofquedlinburg.gameBoard.enums.IngredientGroup;
-import hr.algebra.thequacksofquedlinburg.gameBoard.PlayerPot;
-import hr.algebra.thequacksofquedlinburg.gameBoard.enums.Team;
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.SimpleBooleanProperty;
+import hr.algebra.thequacksofquedlinburg.GameBoard.enums.EnumIngredient;
+import hr.algebra.thequacksofquedlinburg.GameBoard.enums.IngredientGroup;
+import hr.algebra.thequacksofquedlinburg.GameBoard.PlayerPot;
+import hr.algebra.thequacksofquedlinburg.GameBoard.enums.Team;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Cursor;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
+
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
+
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
+import java.io.Serializable;
 import java.net.URL;
 import java.util.*;
 
 
-public class PlayerPotController implements Initializable {
+public class PlayerPotController implements Initializable, Serializable {
     private Team team;
 
     private PlayerPot playerPot;
@@ -47,7 +47,7 @@ public class PlayerPotController implements Initializable {
     @FXML
     private TextField tfPlayer2EnterPoints;
 
-    private BoardController boardController;
+    private  BoardController boardController;
 
 
     private int pointsPlayer1;
@@ -100,7 +100,7 @@ public class PlayerPotController implements Initializable {
             int totalPoints = pointCounter.get(ingredient.getGroup());
 
             if (totalPoints >= 7) {
-                bust("Its a BUST!");
+                quackAlert("Its a BUST!");
                 pnPlayer1Pot.getChildren().add(selectedIngredientLabel);
             } else {
                 pnPlayer1Pot.getChildren().add(selectedIngredientLabel);
@@ -119,18 +119,6 @@ public class PlayerPotController implements Initializable {
 
             boardController.movePlayer1(boardController.getPlayer1Points());
 
-            if (pointsPlayer1 == 1){
-                Label player1Label = new Label("Player 1 has to move: " + pointsPlayer1 + " place forward");
-                boardController.removePlayer2Label();
-                player1Label.setStyle("-fx-font-size: 17px; -fx-font-weight: bold;");
-                boardController.addLabelToPlayerPointsPane(player1Label);
-            }else {
-                Label player1Label = new Label("Player 1 has to move: " + pointsPlayer1 + " places forward");
-                boardController.removePlayer2Label();
-                player1Label.setStyle("-fx-font-size: 17px; -fx-font-weight: bold;");
-                boardController.addLabelToPlayerPointsPane(player1Label);
-            }
-
             stage.close();
         } catch (NumberFormatException e) {
             System.err.println("Invalid points value in the text field.");
@@ -145,18 +133,6 @@ public class PlayerPotController implements Initializable {
             boardController.addPlayer2Points(Integer.parseInt(tfPlayer2EnterPoints.getText()));
 
             boardController.movePlayer2(boardController.getPlayer2Points());
-
-            if (pointsPlayer2 == 1){
-                Label player2Label = new Label("Player 2 has to move: " + pointsPlayer2 + " place forward");
-                boardController.removePlayer1Label();
-                player2Label.setStyle("-fx-font-size: 17px; -fx-font-weight: bold;");
-                boardController.addLabelToPlayerPointsPane(player2Label);
-            }else {
-                Label player2Label = new Label("Player 2 has to move: " + pointsPlayer2 + " places forward");
-                boardController.removePlayer1Label();
-                player2Label.setStyle("-fx-font-size: 17px; -fx-font-weight: bold;");
-                boardController.addLabelToPlayerPointsPane(player2Label);
-            }
 
             stage.close();
         } catch (NumberFormatException e) {
@@ -190,9 +166,9 @@ public class PlayerPotController implements Initializable {
         double x, y;
     }
 
-    private void bust(String message) {
+    private void quackAlert(String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("BUST");
+        alert.setTitle("Quack Alert");
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
