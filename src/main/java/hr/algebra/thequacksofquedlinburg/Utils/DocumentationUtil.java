@@ -5,6 +5,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -69,6 +70,7 @@ public class DocumentationUtil {
                     for (Field field : classFields) {
 
                         documentationContent.append("Field: " + field + "<br>");
+                        documentationContent.append("Modifiers: " + field.getType().getModifiers() + "<br>");
                         documentationContent.append("Type: " + field.getType().getTypeName() + "<br>");
                         documentationContent.append("Name: " + field.getName() + "<br><br>");
                     }

@@ -290,6 +290,7 @@ public class BoardController implements Initializable, Serializable {
         }
     }
 
+
     public void loadGame(){
         clearBoard();
 
@@ -339,6 +340,8 @@ public class BoardController implements Initializable, Serializable {
         documentationUtil.generateDocumentation(DocumentationUtil.CONTROLLER_PATH, DocumentationUtil.HTML_CONTROLLERS);
         documentationUtil.generateDocumentation(DocumentationUtil.ENUM_PATH, DocumentationUtil.HTML_ENUMS);
         documentationUtil.generateDocumentation(DocumentationUtil.UTILS_PATH, DocumentationUtil.HTML_UTILS);
+
+        showMessage("Documentation created");
     }
 
 
