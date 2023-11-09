@@ -14,11 +14,11 @@ import javafx.scene.Scene;
 
 
 public class DocumentationUtil {
-    public static final String THE_QUACKS_PATH = "C:\\Users\\wExzEk\\Desktop\\Year 3\\Java 2\\The Quacks of Quedlinburg\\target\\classes\\hr\\algebra\\thequacksofquedlinburg";
-    public static final String CONTROLLER_PATH = "C:\\Users\\wExzEk\\Desktop\\Year 3\\Java 2\\The Quacks of Quedlinburg\\target\\classes\\hr\\algebra\\thequacksofquedlinburg\\Controllers";
-    public static final String GAME_BOARD_PATH  = "C:\\Users\\wExzEk\\Desktop\\Year 3\\Java 2\\The Quacks of Quedlinburg\\target\\classes\\hr\\algebra\\thequacksofquedlinburg\\GameBoard";
-    public static final String ENUM_PATH  = "C:\\Users\\wExzEk\\Desktop\\Year 3\\Java 2\\The Quacks of Quedlinburg\\target\\classes\\hr\\algebra\\thequacksofquedlinburg\\GameBoard\\enums";
-    public static final String UTILS_PATH  = "C:\\Users\\wExzEk\\Desktop\\Year 3\\Java 2\\The Quacks of Quedlinburg\\target\\classes\\hr\\algebra\\thequacksofquedlinburg\\Utils";
+    public static final String THE_QUACKS_PATH = "target\\classes\\hr\\algebra\\thequacksofquedlinburg";
+    public static final String CONTROLLER_PATH = "target\\classes\\hr\\algebra\\thequacksofquedlinburg\\Controllers";
+    public static final String GAME_BOARD_PATH  = "target\\classes\\hr\\algebra\\thequacksofquedlinburg\\GameBoard";
+    public static final String ENUM_PATH  = "target\\classes\\hr\\algebra\\thequacksofquedlinburg\\GameBoard\\enums";
+    public static final String UTILS_PATH  = "target\\classes\\hr\\algebra\\thequacksofquedlinburg\\Utils";
 
 
     public static final String HTML_QUACKS  = "C:\\Users\\wExzEk\\Desktop\\Year 3\\Java 2\\The Quacks of Quedlinburg\\files\\documentation.html";
@@ -38,7 +38,19 @@ public class DocumentationUtil {
                         .toList();
 
                 StringBuilder documentationContent = new StringBuilder();
-                String existingHtmlContent = Files.exists(Paths.get(outputPath)) ? Files.readString(Paths.get(outputPath)) : "";
+                String existingHtmlContent = "";
+
+                documentationContent.append(
+                        "<!DOCTYPE html>\n" +
+                                "<html>\n" +
+                                "<head>\n" +
+                                "<title>HTML documentation</title>\n" +
+                                "</head>\n" +
+                                "<body>\n" +
+                                "\n" +
+                                "<h1>The Quacks documentation</h1><br>\n");
+
+
 
                 for (String path : filePathsList) {
                     String[] pathTokens = path.split("classes");
@@ -53,20 +65,24 @@ public class DocumentationUtil {
 
                     Field[] classFields = clazz.getDeclaredFields();
 
-                    for (Field field : classFields) {
-                        int modifiers = field.getModifiers();
 
-                        // Append documentation data to the StringBuilder
+                    for (Field field : classFields) {
+
                         documentationContent.append("Field: " + field + "<br>");
-                        documentationContent.append("Modifiers: " + modifiers + "<br>");
                         documentationContent.append("Type: " + field.getType().getTypeName() + "<br>");
                         documentationContent.append("Name: " + field.getName() + "<br><br>");
-                    } // Replace with your actual content
+                    }
+
+
 
                 }
+
+                documentationContent.append(
+                        "</body>\n" +
+                                "</html>");
+
                 existingHtmlContent += documentationContent.toString();
 
-                // Write the updated HTML content back to the HTML file
                 Files.write(Paths.get(outputPath), existingHtmlContent.getBytes());
 
             } catch (IOException | ClassNotFoundException e) {

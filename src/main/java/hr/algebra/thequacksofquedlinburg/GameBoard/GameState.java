@@ -33,6 +33,6 @@ public class GameState implements Serializable {
         this.player1CircleBoardPosX = player1CircleBoardPosX;
         this.player1CircleBoardPosY = player1CircleBoardPosY;
         this.player2CircleBoardPosX = player2CircleBoardPosX;
-        this.player2CircleBoardPosY = player1CircleBoardPosY;
+        this.player2CircleBoardPosY = player2CircleBoardPosY;
     }
 }

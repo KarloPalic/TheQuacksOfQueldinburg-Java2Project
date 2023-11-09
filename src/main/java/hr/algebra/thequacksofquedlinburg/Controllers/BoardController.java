@@ -304,6 +304,12 @@ public class BoardController implements Initializable, Serializable {
             playerPotController1 = gameState.playerPotController1;
             playerPotController2 = gameState.playerPotController2;
 
+            player1CircleBoardPosX = gameState.player1CircleBoardPosX;
+            player1CircleBoardPosY = gameState.player1CircleBoardPosY;
+
+            player2CircleBoardPosX = gameState.player2CircleBoardPosX;
+            player2CircleBoardPosY = gameState.player2CircleBoardPosY;
+
             player1Circle = new Circle(10);
             player1Circle.setFill(Color.BLUE);
             mainGridPane.add(player1Circle, player1CircleBoardPosX,player1CircleBoardPosY);
