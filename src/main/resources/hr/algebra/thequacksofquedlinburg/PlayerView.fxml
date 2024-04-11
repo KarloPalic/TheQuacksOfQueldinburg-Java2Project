@@ -1,21 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.Pane?>
 
-<Pane fx:id="parentPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="718.0" prefWidth="978.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hr.algebra.thequacksofquedlinburg.Controllers.BoardController">
+<Pane fx:id="parentPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="718.0" prefWidth="978.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hr.algebra.thequacksofquedlinburg.controllers.BoardController">
    <children>
        <GridPane fx:id="mainGridPane" layoutX="38.0" layoutY="41.0" prefHeight="500.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
        </GridPane>
-      <Button fx:id="player1Pot" layoutX="821.0" layoutY="401.0" mnemonicParsing="false" onAction="#openPot1" text="Open Player 1 Pot" />
-       <Button fx:id="player2Pot" layoutX="821.0" layoutY="165.0" mnemonicParsing="false" onAction="#openPot2" text="Open Player 2 Pot" />
+      <Button fx:id="player1Pot" layoutX="762.0" layoutY="291.0" mnemonicParsing="false" onAction="#openPot1" text="Open Player 1 Pot" />
+       <Button fx:id="player2Pot" layoutX="762.0" layoutY="113.0" mnemonicParsing="false" onAction="#openPot2" text="Open Player 2 Pot" />
       <ImageView fx:id="player1Icon" fitHeight="32.0" fitWidth="33.0" layoutX="746.0" layoutY="216.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@images/player1.png" />
@@ -26,7 +29,7 @@
             <Image url="@images/player2.png" />
          </image>
       </ImageView>
-      <AnchorPane fx:id="playerPointsPane" layoutX="38.0" layoutY="558.0" prefHeight="118.0" prefWidth="238.0" />
+      <AnchorPane fx:id="playerPointsPane" layoutX="38.0" layoutY="558.0" prefHeight="118.0" prefWidth="129.0" />
       <MenuBar layoutY="2.0" prefHeight="25.0" prefWidth="978.0">
         <menus>
           <Menu mnemonicParsing="false" text="Game">
@@ -34,6 +37,7 @@
               <MenuItem mnemonicParsing="false" onAction="#saveGame" text="Save" />
                   <MenuItem mnemonicParsing="false" onAction="#loadGame" text="Load" />
                   <MenuItem mnemonicParsing="false" onAction="#clearBoard" text="New game" />
+                  <MenuItem mnemonicParsing="false" onAction="#replayTheLastGame" text="Replay the Last Game" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Documentation">
@@ -43,5 +47,9 @@
           </Menu>
         </menus>
       </MenuBar>
+      <TextArea fx:id="chatTextArea" layoutX="753.0" layoutY="333.0" prefHeight="352.0" prefWidth="213.0" />
+      <TextField fx:id="chatMessageTextField" layoutX="31.0" layoutY="546.0" prefHeight="25.0" prefWidth="607.0" />
+      <Button layoutX="645.0" layoutY="546.0" mnemonicParsing="false" onAction="#sentChatMessage" prefHeight="25.0" prefWidth="80.0" text="Send" />
+      <Label fx:id="theLastMoveLabel" layoutX="176.0" layoutY="593.0" prefHeight="28.0" prefWidth="549.0" text="The Last Move" />
    </children>
 </Pane>

@@ -1,17 +1,12 @@
-package hr.algebra.thequacksofquedlinburg.Utils;
-
-import javafx.application.Application;
-import javafx.stage.Stage;
+package hr.algebra.thequacksofquedlinburg.utils;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.stream.Stream;
-import javafx.scene.Scene;
 
 
 public class DocumentationUtil {

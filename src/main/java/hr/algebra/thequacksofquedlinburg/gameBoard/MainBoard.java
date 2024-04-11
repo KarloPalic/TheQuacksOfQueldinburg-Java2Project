@@ -1,4 +1,4 @@
-package hr.algebra.thequacksofquedlinburg.GameBoard;
+package hr.algebra.thequacksofquedlinburg.gameBoard;
 import hr.algebra.thequacksofquedlinburg.MainApplication;
 import javafx.beans.binding.DoubleBinding;
 
@@ -24,15 +24,13 @@ public class MainBoard implements Serializable{
     }
 
     private void writeObject(ObjectOutputStream out) throws IOException {
-        // Serialize other fields that are not transient
         out.defaultWriteObject();
     }
 
     private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
-        // Deserialize other fields that are not transient
+
         in.defaultReadObject();
 
-        // Recreate the GridPane and its contents here
         mainGridPane = new GridPane();
         layoutGridPane(mainGridPane);
         createGridPane(mainGridPane);
@@ -340,13 +338,7 @@ public class MainBoard implements Serializable{
                 fifthy.setStyle("-fx-font-size: 25px; -fx-font-weight: bold; -fx-text-fill: #ffd700;");
                 fifthy.setId(String.valueOf(50));
                 mainGridPane.add(fifthy, 1, 11);
-
-
-
             }
         }
     }
-
-
-
 }

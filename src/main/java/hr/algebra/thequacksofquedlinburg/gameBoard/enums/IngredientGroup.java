@@ -1,4 +1,4 @@
-package hr.algebra.thequacksofquedlinburg.GameBoard.enums;
+package hr.algebra.thequacksofquedlinburg.gameBoard.enums;
 
 public enum IngredientGroup {
     Bloom, Crowskull, GardenSpider, Hawkmoth, Mandrake, pumpkin;

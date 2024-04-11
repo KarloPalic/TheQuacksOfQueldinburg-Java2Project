@@ -1,10 +1,10 @@
-package hr.algebra.thequacksofquedlinburg.Controllers;
+package hr.algebra.thequacksofquedlinburg.controllers;
 
 import hr.algebra.thequacksofquedlinburg.MainApplication;
-import hr.algebra.thequacksofquedlinburg.GameBoard.enums.EnumIngredient;
-import hr.algebra.thequacksofquedlinburg.GameBoard.enums.IngredientGroup;
-import hr.algebra.thequacksofquedlinburg.GameBoard.PlayerPot;
-import hr.algebra.thequacksofquedlinburg.GameBoard.enums.Team;
+import hr.algebra.thequacksofquedlinburg.gameBoard.enums.EnumIngredient;
+import hr.algebra.thequacksofquedlinburg.gameBoard.enums.IngredientGroup;
+import hr.algebra.thequacksofquedlinburg.gameBoard.PlayerPot;
+import hr.algebra.thequacksofquedlinburg.gameBoard.enums.Team;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -48,7 +48,6 @@ public class PlayerPotController implements Initializable, Serializable {
     private TextField tfPlayer2EnterPoints;
 
     private  BoardController boardController;
-
 
     private int pointsPlayer1;
     private int pointsPlayer2;
@@ -120,24 +119,30 @@ public class PlayerPotController implements Initializable, Serializable {
             boardController.movePlayer1(boardController.getPlayer1Points());
 
             stage.close();
+
+            boardController.sendGameStateToServer();
         } catch (NumberFormatException e) {
             System.err.println("Invalid points value in the text field.");
         }
+
     }
     @FXML
     void onbtnEndTurnPlayer2Clicked(ActionEvent event) {
-        try {
-            boardController.erasePlayer2(getPlayer2Points());
-            pointsPlayer2 = Integer.parseInt(tfPlayer2EnterPoints.getText());
+            try {
+                boardController.erasePlayer2(getPlayer2Points());
+                pointsPlayer2 = Integer.parseInt(tfPlayer2EnterPoints.getText());
 
-            boardController.addPlayer2Points(Integer.parseInt(tfPlayer2EnterPoints.getText()));
+                boardController.addPlayer2Points(Integer.parseInt(tfPlayer2EnterPoints.getText()));
 
-            boardController.movePlayer2(boardController.getPlayer2Points());
+                boardController.movePlayer2(boardController.getPlayer2Points());
 
-            stage.close();
-        } catch (NumberFormatException e) {
-            System.err.println("Invalid points value in the text field.");
-        }
+                stage.close();
+
+                boardController.sendGameStateToServer();
+
+            } catch (NumberFormatException e) {
+                System.err.println("Invalid points value in the text field.");
+            }
     }
     private void setDraggable (Label label){
         final Delta dragDelta = new Delta();
@@ -173,18 +178,15 @@ public class PlayerPotController implements Initializable, Serializable {
         alert.setContentText(message);
         alert.showAndWait();
     }
-
     public void setTeam(Team team) {
         this.team = team;
     }
-
     public int getPlayer1Points() {
         return pointsPlayer1;
     }
     public int getPlayer2Points() {
         return pointsPlayer2;
     }
-
     public Stage getStage() {
         return stage;
     }

@@ -1,4 +1,4 @@
-package hr.algebra.thequacksofquedlinburg.GameBoard.enums;
+package hr.algebra.thequacksofquedlinburg.gameBoard.enums;
 
 public enum EnumIngredient {
     Bloom1("/hr/algebra/thequacksofquedlinburg/images/ingredients/Bloom1.png", 1, IngredientGroup.Bloom, "Bloom1"),
