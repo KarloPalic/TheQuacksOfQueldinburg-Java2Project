@@ -1,5 +1,24 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE gameMoves SYSTEM "employees.dtd">
 <gameMoves>
-
+    <gameMove>
+        <playerColor>Blue</playerColor>
+        <playerPosition>0,10</playerPosition>
+        <dateTime>2024-06-10 18:07</dateTime>
+    </gameMove>
+    <gameMove>
+        <playerColor>Red</playerColor>
+        <playerPosition>0,9</playerPosition>
+        <dateTime>2024-06-10 18:07</dateTime>
+    </gameMove>
+    <gameMove>
+        <playerColor>Blue</playerColor>
+        <playerPosition>0,6</playerPosition>
+        <dateTime>2024-06-10 18:07</dateTime>
+    </gameMove>
+    <gameMove>
+        <playerColor>Red</playerColor>
+        <playerPosition>0,3</playerPosition>
+        <dateTime>2024-06-10 18:07</dateTime>
+    </gameMove>
 </gameMoves>

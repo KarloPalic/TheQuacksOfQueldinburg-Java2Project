@@ -67,7 +67,21 @@ public class BoardController implements Serializable {
     private static transient Circle player1Circle;
     private static transient Circle player2Circle;
     private transient Stage stage;
+    private static Registry registry;
     private static RemoteChatService chatServiceStub;
+
+
+    static {
+        try {
+            registry = LocateRegistry.getRegistry(
+                    ConfigurationReader.getStringValue(ConfigurationKey.HOSTNAME.getKeyName()).get()
+                    ,ConfigurationReader.getIntergerValue(ConfigurationKey.RMI_PORT.getKeyName()).get());
+            chatServiceStub = (RemoteChatService) registry.lookup(RemoteChatService.REMOTE_CHAT_OBJECT_NAME);
+
+        } catch (RemoteException | NotBoundException e) {
+            throw new RuntimeException(e);
+        }
+    }
     private static int turnCount = 0;
     private static Team currentTurn = Team.Blue;
     private static String playerPosition;
@@ -103,16 +117,6 @@ public class BoardController implements Serializable {
         }
 
         if (!PlayerType.SINGLE_PLAYER.name().equals(MainApplication.playerLoggedIn.name())) {
-            try {
-
-                Registry registry = LocateRegistry.getRegistry(
-                        ConfigurationReader.getStringValue(ConfigurationKey.HOSTNAME.getKeyName()).get()
-                        ,ConfigurationReader.getIntergerValue(ConfigurationKey.RMI_PORT.getKeyName()).get());
-                chatServiceStub = (RemoteChatService) registry.lookup(RemoteChatService.REMOTE_CHAT_OBJECT_NAME);
-
-            } catch (RemoteException | NotBoundException e) {
-                e.printStackTrace();
-            }
 
             Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(1), e -> refreshChatArea()));
             timeline.setCycleCount(Animation.INDEFINITE);
